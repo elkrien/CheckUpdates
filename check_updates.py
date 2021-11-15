@@ -34,15 +34,15 @@ pacman_updates = sp.getoutput("checkupdates")
 paru_updates = sp.getoutput("paru -Qua")
 updates = pacman_updates + "\n" + paru_updates
 
-# Create table with updates from the list:
-updates_list = [line.split() for line in updates.splitlines()]
-for item in updates_list:
-    item.pop(2)
-    updates_table.add_row(item)
 
 # Show updates in dunst:
 if pacman_updates == "" and paru_updates == "":
     os.system(f'dunstify -i "/home/mm/.config/qtile/icons/updates.svg" " {NO_UPDATES} "')    
 else:
+    # Create table with updates from the list:
+    updates_list = [line.split() for line in updates.splitlines()]
+    for item in updates_list:
+        item.pop(2)
+        updates_table.add_row(item)
     os.system(f'dunstify -i "/home/mm/.config/qtile/icons/updates.svg" " {AVAILABLE_UPDATES}" "{updates_table}"')    
 
